@@ -5,17 +5,13 @@ import sitemap from '@astrojs/sitemap';
 // ZedCap marketing splash. Static output — deployed to GitHub Pages.
 // Faithful rebuild of the live design at zedcapital.xyz.
 //
-// VALIDATION DEPLOY: GitHub Pages project site at
-//   https://zedcap.github.io/zedcapital/
-// so `site` is the github.io host and `base` is the repo subpath. On
-// custom-domain cutover (zedcapital.xyz), revert to
-//   site: 'https://zedcapital.xyz', base: '/'
+// Custom-domain deploy: served at the apex zedcapital.xyz via public/CNAME.
 //
 // Hand-built Astro, sharp image service, build to the default dist/.
 export default defineConfig({
   output: 'static',
-  site: 'https://zedcap.github.io',
-  base: '/zedcapital',
+  site: 'https://zedcapital.xyz',
+  base: '/',
   image: {
     service: { entrypoint: 'astro/assets/services/sharp' },
   },
