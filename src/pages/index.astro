@@ -1,0 +1,15 @@
+---
+/* Home — the entire public site. A single full-viewport splash:
+   fixed header, fixed copyright footer, full-bleed background
+   slideshow between them. No further content sits below the fold. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import HeroSlideshow from '../components/HeroSlideshow.astro';
+---
+
+<BaseLayout title="ZΞD|CAPITAL">
+  <HeroSlideshow />
+  <Header />
+  <Footer />
+</BaseLayout>

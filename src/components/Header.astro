@@ -1,0 +1,58 @@
+---
+/* Fixed header — logo only.
+   White bar, logo left, no border (full-page layout override). */
+import logo from '../assets/zedcap-logo.png';
+import { Image } from 'astro:assets';
+
+// Home link must respect the deploy base, else it points at the domain
+// root instead of /zedcapital/ under the project-path deploy.
+const homeHref = import.meta.env.BASE_URL;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href={homeHref} class="site-header__logo" aria-label="ZΞD|CAPITAL — home">
+      <Image
+        src={logo}
+        alt="ZΞD|CAPITAL"
+        width={170}
+        densities={[1, 2, 3]}
+        loading="eager"
+        fetchpriority="high"
+      />
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    z-index: 3;
+  }
+  .site-header__inner {
+    padding: 0 var(--space-5);
+  }
+  .site-header__logo {
+    display: inline-flex;
+    padding-top: 15px;
+    animation: fadeIn 700ms;
+  }
+  .site-header__logo :global(img) {
+    width: 170px;
+    height: auto;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .site-header__inner { padding: 0 var(--space-4); }
+    .site-header__logo :global(img) { width: 130px; }
+  }
+</style>

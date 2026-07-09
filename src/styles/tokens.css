@@ -1,0 +1,58 @@
+/* ZedCap website — design tokens
+   ---------------------------------------------
+   Matches the live zedcapital.xyz design: monochrome fund aesthetic.
+   A handful of stray accent colours (#00d084, #0693e3, Bootstrap
+   reds/greens) are not used anywhere on the site — excluded here.
+
+   Fonts: Arvo:400 | Lato:400 | Quattrocento Sans:400, matching the
+   live site. Not self-hosted — loads via @import + preconnect. */
+
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Lato:wght@400;700&family=Quattrocento+Sans:wght@400;700&display=swap');
+
+:root {
+  /* ─── Color ────────────────────────────────────────────────── */
+  --black:      #000000;
+  --white:      #ffffff;
+  --ink-soft:   #313131;   /* body copy on white */
+  --ink-strong: #32373c;   /* WP block button ink, near-black */
+  --grey:       #777777;   /* secondary text */
+  --grey-mid:   #cccccc;   /* borders, mid */
+  --grey-line:  #dddddd;   /* hairlines */
+  --grey-pale:  #eeeeee;   /* header border, pale fill */
+  --grey-footer-line: #e8e8e8;
+
+  --bg:         var(--white);
+  --fg:         var(--black);
+  --fg-muted:   var(--grey);
+  --border:     var(--grey-pale);
+
+  /* ─── Type ─────────────────────────────────────────────────── */
+  --font-heading: 'Arvo', Georgia, 'Times New Roman', serif;
+  --font-nav:     'Lato', Arial, Helvetica, sans-serif;
+  --font-body:    'Quattrocento Sans', Arial, Helvetica, sans-serif;
+
+  --fs-nav:     10px;
+  --fs-caption: 13px;
+  --fs-footer:  10px;
+  --fs-body:    14px;
+
+  --ls-caption: 1px;
+  --ls-nav:     0.5px;
+  --ls-footer:  0.8px;
+
+  /* ─── Spacing ──────────────────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --space-5: 30px;
+  --space-6: 75px;
+
+  /* ─── Layout ───────────────────────────────────────────────── */
+  --header-h: 62px;
+  --footer-h: 52px;
+
+  /* ─── Motion ───────────────────────────────────────────────── */
+  --dur-fade: 1600ms;
+  --ease-fade: ease-in-out;
+}
