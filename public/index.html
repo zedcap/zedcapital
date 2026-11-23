@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZΞD|CAPITAL</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sheet">
+<header class="top">
+  <a href="index.html" aria-label="ZΞD|CAPITAL home"><img class="logo" src="img/logo.png" alt="ZΞD|CAPITAL" width="931" height="161"></a>
+</header>
+<main id="main">
+  <div class="plate" aria-hidden="true">
+    <div class="slide s1"><img src="img/hongkong-1920.jpg" srcset="img/hongkong-800.jpg 800w, img/hongkong-1280.jpg 1280w, img/hongkong-1920.jpg 1920w" sizes="(min-width: 1180px) 1052px, 92vw" alt="" width="1920" height="1280" style="object-position:50% 50%"></div>
+    <div class="slide s2"><img src="img/bali-1920.jpg" srcset="img/bali-800.jpg 800w, img/bali-1280.jpg 1280w, img/bali-1920.jpg 1920w" sizes="(min-width: 1180px) 1052px, 92vw" alt="" width="1920" height="1280" style="object-position:50% 50%" loading="lazy"></div>
+    <div class="slide s3"><img src="img/switzerland-1920.jpg" srcset="img/switzerland-800.jpg 800w, img/switzerland-1280.jpg 1280w, img/switzerland-1920.jpg 1920w" sizes="(min-width: 1180px) 1052px, 92vw" alt="" width="1920" height="1280" style="object-position:52% 0%" loading="lazy"></div>
+  </div>
+  <div class="office">
+    <p class="caption"><span class="g"><span class="p">HONG KONG</span><span class="bar">|</span></span><span class="g"><span class="p">BALI</span><span class="bar">|</span></span><span class="g"><span class="p">SWITZERLAND</span></span></p>
+    <a class="login" id="login-link" href="login.html">Login</a>
+  </div>
+</main>
+</div>
+<dialog id="gate-dialog" class="modal" aria-label="Private access">
+  <button class="close" type="button" id="gate-close" aria-label="Close"></button>
+  <img class="mlogo" src="img/logo.png" alt="" width="931" height="161">
+  <div id="gate-body">
+    <form class="gate" id="gate" autocomplete="off">
+      <label class="mlabel" for="pw">Private access</label>
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <button class="enter" type="submit">Enter</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+  </div>
+</dialog>
+<script>
+const BLOB = "Afn4OCnBwF7w0EZ3dSLUf+33RA9ykRTjSQ9j+iuN1H/1GhVGYwr7+03g+f2zYiBxF6bqmmh5JLjv8MtzWRL/F+w=";
+const ITER = 600000;
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function unlock(pw) {
+  const raw = b64(BLOB), salt = raw.slice(0, 16), iv = raw.slice(16, 28), ct = raw.slice(28);
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: ITER, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  return new TextDecoder().decode(await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct));
+}
+const dlg = document.getElementById("gate-dialog"), link = document.getElementById("login-link");
+const body = document.getElementById("gate-body"), form = document.getElementById("gate");
+const pw = document.getElementById("pw"), err = document.getElementById("err");
+const fresh = body.innerHTML;
+link.addEventListener("click", e => {
+  if (!dlg.showModal) return; // no dialog support: follow href to login.html
+  e.preventDefault();
+  body.innerHTML = fresh; wire();
+  dlg.showModal();
+  document.getElementById("pw").focus();
+});
+function close() { dlg.close(); link.focus(); }
+document.getElementById("gate-close").addEventListener("click", close);
+dlg.addEventListener("keydown", e => {
+  if (e.key !== "Tab") return;
+  const f = [...dlg.querySelectorAll("button, input")].filter(x => !x.disabled && x.offsetParent !== null);
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+dlg.addEventListener("click", e => { if (e.target === dlg) close(); });
+function wire() {
+  const f = document.getElementById("gate"), p = document.getElementById("pw"), er = document.getElementById("err");
+  f.addEventListener("submit", async e => {
+    e.preventDefault(); er.textContent = "";
+    try { body.innerHTML = '<div class="private">' + await unlock(p.value) + '</div>'; }
+    catch (_) { er.textContent = "Incorrect password."; p.select(); }
+  });
+}
+wire();
+</script>
+</body>
+</html>
