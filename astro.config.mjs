@@ -1,9 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
 
-// ZedCap marketing splash. Static output — deployed to GitHub Pages.
-// Faithful rebuild of the live design at zedcapital.xyz.
+// zedcapital.xyz: hand-built static files in public/, copied verbatim to dist/.
 //
 // Custom-domain deploy: served at the apex zedcapital.xyz via public/CNAME.
 //
@@ -15,5 +13,4 @@ export default defineConfig({
   image: {
     service: { entrypoint: 'astro/assets/services/sharp' },
   },
-  integrations: [sitemap()],
 });
